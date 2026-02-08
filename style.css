@@ -1,0 +1,44 @@
+body {
+  background: linear-gradient(135deg, #0f0f0f, #2a2a2a);
+  color: white;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: #1c1c1c;
+  padding: 25px;
+  border-radius: 15px;
+  width: 340px;
+  text-align: center;
+}
+
+input, button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  background: #00c853;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#info {
+  margin-top: 15px;
+  font-size: 16px;
+}
+
+img {
+  margin-top: 15px;
+  width: 100%;
+  border-radius: 10px;
+  display: none;
+}
