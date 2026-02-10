@@ -21,10 +21,16 @@
 
         .container { background: var(--card); margin: 10px auto; padding: 20px; width: 100%; max-width: 420px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); box-sizing: border-box; }
 
-        /* VIN Decoder */
+        /* NEW Interactive VIN Map */
+        .vin-map { display: flex; justify-content: center; background: #000; padding: 12px 5px; border-radius: 8px; font-family: monospace; gap: 4px; border: 1px solid #333; margin-bottom: 15px; }
+        .vin-seg { display: flex; flex-direction: column; align-items: center; }
+        .vin-seg span { font-size: 13px; font-weight: bold; letter-spacing: 1px; }
+        .vin-seg small { font-size: 7px; color: #555; margin-top: 4px; text-transform: uppercase; }
+        .year-highlight span { background: rgba(29, 185, 84, 0.2); padding: 0 3px; border-radius: 4px; color: var(--primary); }
+
+        /* VIN Decoder Input */
         .input-wrapper { position: relative; }
-        input#vinInput { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #333; background: #000; color: var(--primary); font-family: monospace; font-size: 18px; box-sizing: border-box; outline: none; transition: 0.3s; }
-        input#vinInput:focus { border-color: var(--primary); }
+        input#vinInput { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #333; background: #000; color: var(--primary); font-family: monospace; font-size: 18px; box-sizing: border-box; outline: none; }
         #charCount { position: absolute; right: 12px; top: 18px; font-size: 11px; color: #666; }
         #errorMsg { color: #ff4d4d; font-size: 11px; height: 18px; margin-top: 5px; font-weight: bold; }
 
@@ -33,20 +39,12 @@
         .auction-btn { background: #007bff; color: white; }
         .recall-btn { background: #f39c12; color: white; }
         .fines-go-btn { background: #e67e22; color: white; margin-top: 20px; }
-        .clear-btn { background: transparent; color: #666; border: 1px solid #333; font-size: 12px; padding: 8px; width: auto; margin: 15px auto 0; display: block; }
 
-        /* Fines Helper */
-        .senawia-box { border: 2px dashed var(--primary); padding: 20px; border-radius: 12px; text-align: left; background: rgba(29, 185, 84, 0.05); }
-        .guide-item { font-size: 14px; margin: 10px 0; display: flex; align-items: center; gap: 10px; }
-
-        /* History & Cards */
+        /* Lists & History */
+        .info-list { text-align: left; font-size: 12px; color: #aaa; padding-left: 20px; margin: 0; }
         .history-item { background: #252525; padding: 12px; margin: 8px 0; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; font-family: monospace; }
         .card-result { background: #2a2a2a; padding: 15px; border-radius: 10px; text-align: left; border-left: 4px solid var(--primary); margin-top: 15px; animation: slideUp 0.3s ease; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* VIN Structure Info */
-        .vin-example { background: #000; padding: 10px; border-radius: 8px; font-family: monospace; letter-spacing: 2px; color: #444; display: flex; justify-content: center; gap: 2px; }
-        .year-char { color: var(--primary); font-weight: bold; text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -70,11 +68,25 @@
 
 <div id="vinSection">
     <div class="container">
-      <h2 id="structTitle" style="margin:0 0 10px 0; font-size:18px;">VIN Structure Guide</h2>
-      <div class="vin-example">
-        <span>1</span><span>H</span><span>G</span><span>C</span><span>P</span><span>2</span><span>6</span><span>4</span><span>8</span><span class="year-char" title="Year Code">R</span><span>A</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+      <h2 id="structTitle" style="margin:0 0 15px 0; font-size:18px;">Complete VIN Guide</h2>
+      
+      <div class="vin-map">
+        <div class="vin-seg"><span>1HG</span><small>WMI</small></div>
+        <div class="vin-seg"><span>CP264</span><small>Specs</small></div>
+        <div class="vin-seg"><span>8</span><small>Check</small></div>
+        <div class="vin-seg year-highlight"><span>R</span><small>Year</small></div>
+        <div class="vin-seg"><span>A</span><small>Plant</small></div>
+        <div class="vin-seg"><span>123456</span><small>Serial</small></div>
       </div>
-      <pre id="vinInfoText" style="text-align:left; font-size:12px; color:#888;"></pre>
+
+      <ul class="info-list">
+          <li id="li1"><b>1-3:</b> Country & Manufacturer</li>
+          <li id="li2"><b>4-8:</b> Engine, Type, & Model</li>
+          <li id="li3"><b>9:</b> Security Check Digit</li>
+          <li id="li4"><b>10:</b> Model Year (R = 2024)</li>
+          <li id="li5"><b>11:</b> Assembly Plant Location</li>
+          <li id="li6"><b>12-17:</b> Unique Production Number</li>
+      </ul>
     </div>
 
     <div class="container">
@@ -91,24 +103,19 @@
     <div class="container" id="historyContainer">
       <h3 id="histTitle" style="margin:0">Recent Searches</h3>
       <div id="historyList"></div>
-      <button class="clear-btn" id="clearBtn" onclick="clearHistory()">Clear History</button>
+      <button style="background:transparent; color:#555; font-size:12px; border:1px solid #333; margin-top:10px;" onclick="clearHistory()">Clear History</button>
     </div>
 </div>
 
 <div id="finesSection" style="display: none;">
     <div class="container">
         <h1 id="finesTitle" style="margin:0">Erbil Traffic Fines</h1>
-        <p style="font-size: 14px; color: #888; margin: 10px 0 25px 0;">Use your Senawia (Green Card) to check violations.</p>
-        
-        <div class="senawia-box">
-            <p style="color: var(--primary); font-weight: bold; margin:0 0 10px 0;">📋 Information Required:</p>
-            <div class="guide-item">✅ Plate Number (ژمارەی تابلۆ)</div>
-            <div class="guide-item">✅ Registration No. (ژمارەی ساڵنامە)</div>
+        <p style="font-size: 14px; color: #888; margin: 10px 0 25px 0;">Check your Senawia for these details:</p>
+        <div style="border: 2px dashed var(--primary); padding: 20px; border-radius: 12px; text-align: left;">
+            <div style="margin-bottom:10px;">✅ Plate Number (ژمارەی تابلۆ)</div>
+            <div>✅ Registration No. (ژمارەی ساڵنامە)</div>
         </div>
-
-        <button class="fines-go-btn" onclick="window.open('https://www.erbilpolice.com/fines/')">
-            🌐 Open Official Traffic Site
-        </button>
+        <button class="fines-go-btn" onclick="window.open('https://www.erbilpolice.com/fines/')">🌐 Open Official Portal</button>
     </div>
 </div>
 
@@ -118,12 +125,12 @@
 
     const years = {'A':2010,'B':2011,'C':2012,'D':2013,'E':2014,'F':2015,'G':2016,'H':2017,'J':2018,'K':2019,'L':2020,'M':2021,'N':2022,'P':2023,'R':2024,'S':2025,'T':2026};
     const flags = {'1':'🇺🇸','4':'🇺🇸','5':'🇺🇸','2':'🇨🇦','3':'🇲🇽','J':'🇯🇵','K':'🇰🇷','W':'🇩🇪','S':'🇬🇧','V':'🇫🇷','Z':'🇮🇹','L':'🇨🇳'};
-    const brands = {"JHM":"Honda","1HG":"Honda","JT2":"Toyota","JTN":"Toyota","WBA":"BMW","WDC":"Mercedes-Benz","WAU":"Audi","WVW":"Volkswagen","JN1":"Nissan","KMH":"Hyundai","KNA":"Kia","SAL":"Land Rover"};
+    const brands = {"JHM":"Honda","1HG":"Honda","JT2":"Toyota","JTN":"Toyota","WBA":"BMW","WDC":"Mercedes-Benz","WAU":"Audi","WVW":"Volkswagen","JN1":"Nissan","KMH":"Hyundai","KNA":"Kia"};
 
     const translations = {
-        en: { title:"VIN Decoder 🚗", btn:"Decode", hist:"Recent Searches", struct:"VIN Guide", tabVin:"VIN Decoder", tabFines:"Erbil Fines", finesTitle:"Traffic Fines", info:"1-3: Manufacturer\n10: Year (Highlighted)\n12-17: Serial No.", clear:"Clear History" },
-        ar: { title:"فحص الشاصي 🚗", btn:"تحليل", hist:"الأخيرة", struct:"دليل VIN", tabVin:"فحص VIN", tabFines:"غرامات أربيل", finesTitle:"غرامات المرور", info:"1-3: المصنع\n10: السنة (المشار إليها)\n12-17: الرقم التسلسلي", clear:"مسح السجل" },
-        ku: { title:"پشکنینی VIN 🚗", btn:"پشکنین", hist:"گەڕانەکان", struct:"ڕێبەری VIN", tabVin:"پشکنینی VIN", tabFines:"سزاکانی هەولێر", finesTitle:"سزاکانی هاتووچۆ", info:"1-3: کۆدی کارگە\n10: ساڵی دروستکردن\n12-17: ژمارەی زنجیرەیی", clear:"پاککردنەوەی مێژوو" }
+        en: { title:"VIN Decoder 🚗", btn:"Decode", hist:"Recent Searches", struct:"Complete VIN Guide", tabVin:"VIN Decoder", tabFines:"Erbil Fines", finesTitle:"Traffic Fines", li1:"<b>1-3:</b> Country & Manufacturer", li2:"<b>4-8:</b> Engine, Type, & Model", li3:"<b>9:</b> Security Check Digit", li4:"<b>10:</b> Model Year (R = 2024)", li5:"<b>11:</b> Assembly Plant Location", li6:"<b>12-17:</b> Unique Serial No." },
+        ar: { title:"فحص الشاصي 🚗", btn:"تحليل", hist:"الأخيرة", struct:"دليل VIN الكامل", tabVin:"فحص VIN", tabFines:"غرامات أربيل", finesTitle:"غرامات المرور", li1:"<b>١-٣:</b> البلد والشركة المصنعة", li2:"<b>٤-٨:</b> المحرك، النوع، والطراز", li3:"<b>٩:</b> رقم التحقق الأمني", li4:"<b>١٠:</b> سنة الصنع (R = ٢٠٢٤)", li5:"<b>١١:</b> كود مصنع التجميع", li6:"<b>١٢-١٧:</b> الرقم التسلسلي الفريد" },
+        ku: { title:"پشکنینی VIN 🚗", btn:"پشکنین", hist:"گەڕانەکان", struct:"ڕێبەری تەواوی VIN", tabVin:"پشکنینی VIN", tabFines:"سزاکانی هەولێر", finesTitle:"سزاکانی هاتووچۆ", li1:"<b>١-٣:</b> وڵات و کۆمپانیای بەرهەمهێنەر", li2:"<b>٤-٨:</b> جۆری بزوێنەر و مۆدێل", li3:"<b>٩:</b> کۆدی دڵنیایی", li4:"<b>١٠:</b> ساڵی بەرهەمهێنان (R = ٢٠٢٤)", li5:"<b>١١:</b> کۆدی کارگەی بەستنەوە", li6:"<b>١٢-١٧:</b> ژمارەی زنجیرەیی تاقانە" }
     };
 
     function switchTab(tab) {
@@ -134,12 +141,7 @@
     }
 
     function handleInput(input) {
-        let val = input.value.toUpperCase();
-        const err = document.getElementById("errorMsg");
-        if (/[IOQ]/.test(val)) {
-            err.innerText = "VINs never use I, O, or Q";
-            val = val.replace(/[IOQ]/g, '');
-        } else { err.innerText = ""; }
+        let val = input.value.toUpperCase().replace(/[IOQ]/g, '');
         input.value = val;
         document.getElementById("charCount").innerText = `${val.length}/17`;
     }
@@ -154,8 +156,12 @@
         document.getElementById("tabFines").innerText = t.tabFines;
         document.getElementById("finesTitle").innerText = t.finesTitle;
         document.getElementById("structTitle").innerText = t.struct;
-        document.getElementById("vinInfoText").innerText = t.info;
-        document.getElementById("clearBtn").innerText = t.clear;
+        document.getElementById("li1").innerHTML = t.li1;
+        document.getElementById("li2").innerHTML = t.li2;
+        document.getElementById("li3").innerHTML = t.li3;
+        document.getElementById("li4").innerHTML = t.li4;
+        document.getElementById("li5").innerHTML = t.li5;
+        document.getElementById("li6").innerHTML = t.li6;
         document.body.style.direction = (lang === 'en') ? 'ltr' : 'rtl';
         updateHistoryUI();
     }
@@ -196,13 +202,10 @@
 
     function updateHistoryUI() {
         const list = document.getElementById("historyList");
-        const container = document.getElementById("historyContainer");
         if (history.length === 0) {
-            list.innerHTML = `<p style="color:#444; font-size:12px;">No recent searches</p>`;
-            document.getElementById("clearBtn").style.display = "none";
+            list.innerHTML = `<p style="color:#444; font-size:12px;">No searches yet</p>`;
         } else {
             list.innerHTML = history.map(v => `<div class="history-item" onclick="decodeVIN('${v}')"><span>${v}</span><span>🔍</span></div>`).join('');
-            document.getElementById("clearBtn").style.display = "block";
         }
     }
 
