@@ -8,43 +8,34 @@
         :root { --primary: #1db954; --dark: #0f0f0f; --card: #1c1c1c; --text: #eee; }
         body { background: var(--dark); color: var(--text); font-family: -apple-system, sans-serif; text-align: center; margin: 0; padding: 15px; line-height: 1.5; }
         
-        /* Branding */
         .branding { margin-bottom: 15px; }
         .instagram { display: flex; justify-content: center; align-items: center; gap: 8px; font-weight: bold; margin-bottom: 10px; font-size: 14px; color: #bbb; }
         .instagram img { width: 18px; height: 18px; }
         select#language { padding: 6px 12px; border-radius: 8px; background: #222; color: white; border: 1px solid #444; cursor: pointer; }
 
-        /* Navigation */
         .nav-tabs { display: flex; justify-content: center; gap: 8px; margin: 20px auto; max-width: 400px; }
         .tab-btn { background: #222; border: 1px solid #444; color: #888; padding: 12px; border-radius: 10px; cursor: pointer; flex: 1; font-weight: bold; transition: 0.3s; }
         .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 0 15px rgba(29, 185, 84, 0.2); }
 
         .container { background: var(--card); margin: 10px auto; padding: 20px; width: 100%; max-width: 420px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); box-sizing: border-box; }
 
-        /* NEW Interactive VIN Map */
         .vin-map { display: flex; justify-content: center; background: #000; padding: 12px 5px; border-radius: 8px; font-family: monospace; gap: 4px; border: 1px solid #333; margin-bottom: 15px; }
         .vin-seg { display: flex; flex-direction: column; align-items: center; }
         .vin-seg span { font-size: 13px; font-weight: bold; letter-spacing: 1px; }
         .vin-seg small { font-size: 7px; color: #555; margin-top: 4px; text-transform: uppercase; }
         .year-highlight span { background: rgba(29, 185, 84, 0.2); padding: 0 3px; border-radius: 4px; color: var(--primary); }
 
-        /* VIN Decoder Input */
         .input-wrapper { position: relative; }
         input#vinInput { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #333; background: #000; color: var(--primary); font-family: monospace; font-size: 18px; box-sizing: border-box; outline: none; }
         #charCount { position: absolute; right: 12px; top: 18px; font-size: 11px; color: #666; }
-        #errorMsg { color: #ff4d4d; font-size: 11px; height: 18px; margin-top: 5px; font-weight: bold; }
 
         button { width: 100%; padding: 14px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.2s; margin-top: 10px; }
         #decodeBtn { background: var(--primary); color: white; }
-        .auction-btn { background: #007bff; color: white; }
-        .recall-btn { background: #f39c12; color: white; }
         .fines-go-btn { background: #e67e22; color: white; margin-top: 20px; }
 
-        /* Lists & History */
         .info-list { text-align: left; font-size: 12px; color: #aaa; padding-left: 20px; margin: 0; }
         .history-item { background: #252525; padding: 12px; margin: 8px 0; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; font-family: monospace; }
-        .card-result { background: #2a2a2a; padding: 15px; border-radius: 10px; text-align: left; border-left: 4px solid var(--primary); margin-top: 15px; animation: slideUp 0.3s ease; }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .card-result { background: #2a2a2a; padding: 15px; border-radius: 10px; text-align: left; border-left: 4px solid var(--primary); margin-top: 15px; }
     </style>
 </head>
 <body>
@@ -52,7 +43,7 @@
 <div class="branding">
   <div class="instagram">
     <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Insta">
-    <span>Instagram icon : @zayd90000</span>
+    <span>Instagram : @zayd90000</span>
   </div>
   <select id="language" onchange="changeLanguage()">
     <option value="en">English</option>
@@ -68,8 +59,7 @@
 
 <div id="vinSection">
     <div class="container">
-      <h2 id="structTitle" style="margin:0 0 15px 0; font-size:18px;">Complete VIN Guide</h2>
-      
+      <h2 id="structTitle">Complete VIN Guide</h2>
       <div class="vin-map">
         <div class="vin-seg"><span>1HG</span><small>WMI</small></div>
         <div class="vin-seg"><span>CP264</span><small>Specs</small></div>
@@ -78,54 +68,47 @@
         <div class="vin-seg"><span>A</span><small>Plant</small></div>
         <div class="vin-seg"><span>123456</span><small>Serial</small></div>
       </div>
-
       <ul class="info-list">
           <li id="li1"><b>1-3:</b> Country & Manufacturer</li>
           <li id="li2"><b>4-8:</b> Engine, Type, & Model</li>
           <li id="li3"><b>9:</b> Security Check Digit</li>
           <li id="li4"><b>10:</b> Model Year (R = 2024)</li>
           <li id="li5"><b>11:</b> Assembly Plant Location</li>
-          <li id="li6"><b>12-17:</b> Unique Production Number</li>
+          <li id="li6"><b>12-17:</b> Unique Serial No.</li>
       </ul>
     </div>
 
     <div class="container">
-      <h1 id="title" style="margin:0 0 15px 0;">VIN Decoder 🚗</h1>
+      <h1 id="title">VIN Decoder 🚗</h1>
       <div class="input-wrapper">
         <input id="vinInput" maxlength="17" placeholder="Enter 17-digit VIN" oninput="handleInput(this)">
         <div id="charCount">0/17</div>
       </div>
-      <div id="errorMsg"></div>
       <button onclick="decodeVIN()" id="decodeBtn">Decode & Search</button>
       <div id="result"></div>
     </div>
 
-    <div class="container" id="historyContainer">
-      <h3 id="histTitle" style="margin:0">Recent Searches</h3>
+    <div class="container">
+      <h3 id="histTitle">Recent Searches</h3>
       <div id="historyList"></div>
-      <button style="background:transparent; color:#555; font-size:12px; border:1px solid #333; margin-top:10px;" onclick="clearHistory()">Clear History</button>
     </div>
 </div>
 
 <div id="finesSection" style="display: none;">
     <div class="container">
-        <h1 id="finesTitle" style="margin:0">Erbil Traffic Fines</h1>
-        <p style="font-size: 14px; color: #888; margin: 10px 0 25px 0;">Check your Senawia for these details:</p>
-        <div style="border: 2px dashed var(--primary); padding: 20px; border-radius: 12px; text-align: left;">
-            <div style="margin-bottom:10px;">✅ Plate Number (ژمارەی تابلۆ)</div>
-            <div>✅ Registration No. (ژمارەی ساڵنامە)</div>
+        <h1 id="finesTitle">Erbil Traffic Fines</h1>
+        <p style="font-size: 14px; color: #888; margin: 10px 0;">Official MOI Fines Portal</p>
+        <div style="border: 2px dashed var(--primary); padding: 15px; border-radius: 12px; text-align: left; background: #000;">
+            <p>📍 <b>Office:</b> Hatim Al-Tai Street, Erbil</p>
+            <p>⏰ <b>Hours:</b> Sun-Thu (8:00 AM - 2:00 PM)</p>
         </div>
-        <button class="fines-go-btn" onclick="window.open('https://www.erbilpolice.com/fines/')">🌐 Open Official Portal</button>
+        <button class="fines-go-btn" onclick="window.open('https://htp.moi.gov.krd/fines_form.php')">🌐 Open Official Portal</button>
     </div>
 </div>
 
 <script>
     let lang = "en";
     let history = JSON.parse(localStorage.getItem("vin_history")) || [];
-
-    const years = {'A':2010,'B':2011,'C':2012,'D':2013,'E':2014,'F':2015,'G':2016,'H':2017,'J':2018,'K':2019,'L':2020,'M':2021,'N':2022,'P':2023,'R':2024,'S':2025,'T':2026};
-    const flags = {'1':'🇺🇸','4':'🇺🇸','5':'🇺🇸','2':'🇨🇦','3':'🇲🇽','J':'🇯🇵','K':'🇰🇷','W':'🇩🇪','S':'🇬🇧','V':'🇫🇷','Z':'🇮🇹','L':'🇨🇳'};
-    const brands = {"JHM":"Honda","1HG":"Honda","JT2":"Toyota","JTN":"Toyota","WBA":"BMW","WDC":"Mercedes-Benz","WAU":"Audi","WVW":"Volkswagen","JN1":"Nissan","KMH":"Hyundai","KNA":"Kia"};
 
     const translations = {
         en: { title:"VIN Decoder 🚗", btn:"Decode", hist:"Recent Searches", struct:"Complete VIN Guide", tabVin:"VIN Decoder", tabFines:"Erbil Fines", finesTitle:"Traffic Fines", li1:"<b>1-3:</b> Country & Manufacturer", li2:"<b>4-8:</b> Engine, Type, & Model", li3:"<b>9:</b> Security Check Digit", li4:"<b>10:</b> Model Year (R = 2024)", li5:"<b>11:</b> Assembly Plant Location", li6:"<b>12-17:</b> Unique Serial No." },
@@ -141,9 +124,8 @@
     }
 
     function handleInput(input) {
-        let val = input.value.toUpperCase().replace(/[IOQ]/g, '');
-        input.value = val;
-        document.getElementById("charCount").innerText = `${val.length}/17`;
+        input.value = input.value.toUpperCase().replace(/[IOQ]/g, '');
+        document.getElementById("charCount").innerText = `${input.value.length}/17`;
     }
 
     function changeLanguage() {
@@ -163,50 +145,17 @@
         document.getElementById("li5").innerHTML = t.li5;
         document.getElementById("li6").innerHTML = t.li6;
         document.body.style.direction = (lang === 'en') ? 'ltr' : 'rtl';
-        updateHistoryUI();
     }
 
-    function decodeVIN(inputVin = null) {
-        const vin = (inputVin || document.getElementById("vinInput").value).toUpperCase().trim();
+    function decodeVIN() {
+        const vin = document.getElementById("vinInput").value.trim();
         if (vin.length !== 17) return;
-
-        const flag = flags[vin[0]] || '🏳️';
-        const brand = brands[vin.substring(0,3)] || "Unknown Brand";
-        const year = years[vin[9]] || "Unknown";
-        
         document.getElementById("result").innerHTML = `
             <div class="card-result">
-                <div style="font-size: 20px; font-weight:bold; margin-bottom: 8px;">${flag} ${brand}</div>
-                <div style="color: #bbb; font-size: 14px; margin-bottom: 10px;">Model Year: ${year} (${vin[9]})</div>
-                <button class="auction-btn" onclick="window.open('https://google.com/search?q=site:bidfax.info+${vin}')">🖼️ Auction Photos (Free)</button>
-                <button class="recall-btn" onclick="window.open('https://www.nhtsa.gov/recalls?vin=${vin}')">⚠️ Check Recalls (Free)</button>
+                <b>Result for: ${vin}</b><br>
+                <button class="fines-go-btn" style="background:#007bff" onclick="window.open('https://google.com/search?q=site:bidfax.info+${vin}')">🔍 Check Auction Photos</button>
             </div>
         `;
-        if (!inputVin) saveToHistory(vin);
-    }
-
-    function saveToHistory(vin) {
-        if (!history.includes(vin)) {
-            history.unshift(vin);
-            if (history.length > 5) history.pop();
-            localStorage.setItem("vin_history", JSON.stringify(history));
-            updateHistoryUI();
-        }
-    }
-
-    function clearHistory() {
-        history = [];
-        localStorage.removeItem("vin_history");
-        updateHistoryUI();
-    }
-
-    function updateHistoryUI() {
-        const list = document.getElementById("historyList");
-        if (history.length === 0) {
-            list.innerHTML = `<p style="color:#444; font-size:12px;">No searches yet</p>`;
-        } else {
-            list.innerHTML = history.map(v => `<div class="history-item" onclick="decodeVIN('${v}')"><span>${v}</span><span>🔍</span></div>`).join('');
-        }
     }
 
     window.onload = changeLanguage;
