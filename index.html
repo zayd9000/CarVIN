@@ -7,29 +7,34 @@
 </head>
 <body>
 
-  <!-- Branding -->
+  <!-- Top Branding -->
   <div class="branding">
-    <div class="brand-name">@zayd90000</div>
-    <div class="kurdistan">
-      <span>Kurdistan</span>
-      <img src="kurdistan.png" alt="Kurdistan Flag">
+    <div class="instagram">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png">
+      <span>@Zaid 90,000</span>
     </div>
+
+    <select id="language" onchange="changeLanguage()">
+      <option value="en">English</option>
+      <option value="ku">کوردی</option>
+      <option value="ar">العربية</option>
+    </select>
   </div>
 
-  <!-- Main Box -->
+  <!-- Main -->
   <div class="container">
-    <h1>VIN Decoder 🚗</h1>
+    <h1 id="title">VIN Decoder 🚗</h1>
 
-    <input 
-      type="text" 
-      id="vinInput" 
-      placeholder="Enter VIN (17 characters)"
-      maxlength="17"
-    >
-
-    <button onclick="decodeVIN()">Decode</button>
+    <input id="vinInput" maxlength="17" placeholder="Enter VIN">
+    <button onclick="decodeVIN()" id="decodeBtn">Decode</button>
 
     <div id="result"></div>
+  </div>
+
+  <!-- VIN Education -->
+  <div class="container info">
+    <h2 id="vinInfoTitle">How VIN Numbers Work</h2>
+    <p id="vinInfoText"></p>
   </div>
 
   <script src="script.js"></script>
