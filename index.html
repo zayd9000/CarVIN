@@ -1,19 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>VIN Decoder</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<!-- Branding -->
 <div class="branding">
   <div class="instagram">
     <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png">
     <span>@Zaid 90,000</span>
   </div>
-
   <select id="language" onchange="changeLanguage()">
     <option value="en">English</option>
     <option value="ku">کوردی</option>
@@ -21,23 +10,23 @@
   </select>
 </div>
 
-<!-- VIN INFO FIRST -->
 <div class="container info">
-  <h2 id="vinInfoTitle">How to read a VIN</h2>
+  <h2 id="structureTitle">VIN Structure Guide</h2>
+  <div class="vin-example">
+    <span title="Country">1</span><span title="Manufacturer">H</span><span title="Type">G</span><span title="Vehicle Attributes">C P 2 6 4</span><span title="Check Digit">8</span><span title="Year">R</span><span title="Plant">A</span><span title="Serial Number">1 2 3 4 5 6</span>
+  </div>
   <pre id="vinInfoText"></pre>
-  <button onclick="copyVinInfo()">📋 Copy VIN Info</button>
+  <button onclick="copyVinInfo()" id="copyBtn">📋 Copy Info</button>
 </div>
 
-<!-- Decoder -->
 <div class="container">
   <h1 id="title">VIN Decoder 🚗</h1>
-
-  <input id="vinInput" maxlength="17">
+  <input id="vinInput" maxlength="17" placeholder="Enter VIN...">
   <button onclick="decodeVIN()" id="decodeBtn">Decode</button>
-
   <div id="result"></div>
 </div>
 
-<script src="script.js"></script>
-</body>
-</html>
+<div class="container history-box" id="historySection">
+  <h3 id="historyTitle">Recent Searches</h3>
+  <div id="historyList"></div>
+</div>
