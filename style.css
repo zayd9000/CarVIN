@@ -1,44 +1,91 @@
 body {
-  background: linear-gradient(135deg, #0f0f0f, #2a2a2a);
-  color: white;
+  margin: 0;
   font-family: Arial, sans-serif;
+  background: #0f0f0f;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.branding {
+  text-align: center;
+  margin-top: 25px;
+}
+
+.brand-name {
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.kurdistan {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 14px;
+  color: #cccccc;
+}
+
+.kurdistan img {
+  width: 26px;
+  border-radius: 2px;
 }
 
 .container {
-  background: #1c1c1c;
+  background: #1b1b1b;
+  margin-top: 30px;
   padding: 25px;
-  border-radius: 15px;
-  width: 340px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 420px;
   text-align: center;
+  box-shadow: 0 0 25px rgba(0,0,0,0.6);
 }
 
-input, button {
+input {
   width: 100%;
-  padding: 10px;
-  margin-top: 10px;
+  padding: 12px;
+  margin-top: 15px;
   border-radius: 8px;
   border: none;
+  font-size: 16px;
+  text-transform: uppercase;
 }
 
 button {
-  background: #00c853;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-#info {
-  margin-top: 15px;
-  font-size: 16px;
-}
-
-img {
   margin-top: 15px;
   width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  background: #1db954;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+button:hover {
+  background: #17a44a;
+}
+
+.card {
+  background: #262626;
+  margin-top: 20px;
+  padding: 15px;
   border-radius: 10px;
-  display: none;
+  text-align: left;
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+.logo {
+  width: 80px;
+  display: block;
+  margin: 10px auto;
 }
