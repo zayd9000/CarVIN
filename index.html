@@ -3,42 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zayd VIN & Official Traffic Hub</title>
+    <title>Zayd VIN & Traffic Hub</title>
     <style>
         :root { --primary: #1db954; --dark: #0f0f0f; --card: #1c1c1c; --text: #eee; }
-        body { background: var(--dark); color: var(--text); font-family: -apple-system, sans-serif; text-align: center; margin: 0; padding: 15px; line-height: 1.5; }
+        body { background: var(--dark); color: var(--text); font-family: -apple-system, sans-serif; text-align: center; margin: 0; padding: 15px; }
         
         .branding { margin-bottom: 15px; }
         .instagram { display: flex; justify-content: center; align-items: center; gap: 8px; font-weight: bold; margin-bottom: 10px; font-size: 14px; color: #bbb; }
         .instagram img { width: 18px; height: 18px; }
-        select#language { padding: 6px 12px; border-radius: 8px; background: #222; color: white; border: 1px solid #444; cursor: pointer; }
 
         .nav-tabs { display: flex; justify-content: center; gap: 8px; margin: 20px auto; max-width: 400px; }
-        .tab-btn { background: #222; border: 1px solid #444; color: #888; padding: 12px; border-radius: 10px; cursor: pointer; flex: 1; font-weight: bold; transition: 0.3s; }
+        .tab-btn { background: #222; border: 1px solid #444; color: #888; padding: 12px; border-radius: 10px; cursor: pointer; flex: 1; font-weight: bold; }
         .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        .container { background: var(--card); margin: 10px auto; padding: 20px; width: 100%; max-width: 420px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); box-sizing: border-box; }
-
-        /* VIN Input Area */
-        .input-wrapper { position: relative; }
-        input#vinInput { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #333; background: #000; color: var(--primary); font-family: monospace; font-size: 18px; box-sizing: border-box; outline: none; text-align: center; letter-spacing: 2px; text-transform: uppercase; }
-        #charCount { position: absolute; right: 12px; top: 18px; font-size: 11px; color: #666; }
-
-        button { width: 100%; padding: 14px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.2s; margin-top: 10px; }
-        #decodeBtn { background: var(--primary); color: white; }
-        .secondary-btn { background: #333; color: white; font-size: 12px; padding: 10px; }
-
-        /* Technical Result Card */
-        .card-result { background: #2a2a2a; padding: 20px; border-radius: 12px; text-align: left; border-top: 4px solid var(--primary); margin-top: 15px; animation: slideUp 0.3s ease; }
-        .brand-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-        .brand-logo { width: 55px; height: 55px; background: white; border-radius: 10px; padding: 4px; object-fit: contain; }
+        .container { background: var(--card); margin: 10px auto; padding: 20px; width: 100%; max-width: 420px; border-radius: 15px; border: 1px solid #333; box-sizing: border-box; }
+        input#vinInput { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #444; background: #000; color: var(--primary); font-family: monospace; font-size: 18px; text-align: center; letter-spacing: 2px; outline: none; box-sizing: border-box; }
         
-        .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .tech-item { background: #1c1c1c; padding: 10px; border-radius: 8px; border: 1px solid #333; }
-        .tech-label { color: #666; display: block; font-size: 9px; text-transform: uppercase; font-weight: bold; }
+        /* Result Card with Logo Integration */
+        .card-result { background: #252525; padding: 20px; border-radius: 12px; text-align: left; border-left: 4px solid var(--primary); margin-top: 15px; animation: fadeIn 0.4s; }
+        .brand-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .brand-logo { width: 50px; height: 50px; background: white; border-radius: 8px; padding: 5px; object-fit: contain; }
+        
+        .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .tech-item { background: #111; padding: 10px; border-radius: 8px; border: 1px solid #333; }
+        .tech-label { color: #666; font-size: 10px; text-transform: uppercase; font-weight: bold; display: block; }
         .tech-val { font-size: 13px; font-weight: bold; color: #fff; }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        button { width: 100%; padding: 14px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 16px; transition: 0.2s; }
+        #decodeBtn { background: var(--primary); color: white; }
+        .auction-btn { background: #007bff; color: white; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -46,88 +41,60 @@
 <div class="branding">
   <div class="instagram">
     <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Insta">
-    <span>@zayd90000</span>
+    <span>Instagram : @zayd90000</span>
   </div>
-  <select id="language" onchange="changeLanguage()">
-    <option value="en">English</option>
-    <option value="ku">کوردی</option>
-    <option value="ar">العربية</option>
-  </select>
 </div>
 
 <div class="nav-tabs">
-  <button id="tabVin" class="tab-btn active" onclick="switchTab('vin')">VIN Decoder</button>
-  <button id="tabFines" class="tab-btn" onclick="switchTab('fines')">Erbil Fines</button>
+  <button id="tabVin" class="tab-btn active">VIN Decoder</button>
+  <button id="tabFines" class="tab-btn" onclick="window.open('https://htp.moi.gov.krd/fines_form.php')">Erbil Fines</button>
 </div>
 
-<div id="vinSection">
-    <div class="container">
-      <h1 id="title" style="margin-top:0">VIN Technical Decoder</h1>
-      <div class="input-wrapper">
-        <input id="vinInput" maxlength="17" placeholder="ENTER 17-DIGIT VIN" oninput="handleInput(this)">
-        <div id="charCount">0/17</div>
-      </div>
-      <button onclick="decodeVIN()" id="decodeBtn">Get Technical Data</button>
-      <div id="result"></div>
-    </div>
-</div>
-
-<div id="finesSection" style="display: none;">
-    <div class="container">
-        <h1 id="finesTitle">Official Erbil Fines</h1>
-        <p style="color:#888; font-size: 14px;">Access the Kurdistan MOI portal directly.</p>
-        <button style="background:#e67e22; color:white;" onclick="window.open('https://htp.moi.gov.krd/fines_form.php')">🌐 Open Official Portal</button>
-    </div>
+<div class="container">
+    <h1 style="margin-top:0">VIN Decoder 🚗</h1>
+    <input id="vinInput" maxlength="17" placeholder="ENTER 17-DIGIT VIN" oninput="this.value = this.value.toUpperCase()">
+    <button onclick="decodeVIN()" id="decodeBtn">Decode</button>
+    <div id="result"></div>
 </div>
 
 <script>
     const years = {'A':2010,'B':2011,'C':2012,'D':2013,'E':2014,'F':2015,'G':2016,'H':2017,'J':2018,'K':2019,'L':2020,'M':2021,'N':2022,'P':2023,'R':2024,'S':2025,'T':2026};
-    const regions = {'1':'USA','2':'Canada','3':'Mexico','4':'USA','5':'USA','J':'Japan','K':'Korea','W':'Germany','S':'UK','V':'France','Z':'Italy','L':'China','M':'India','R':'Taiwan'};
+    
+    // Expanded brand database for logo accuracy
     const brands = {
-        "JHM":"Honda","1HG":"Honda","5J6":"Honda","2HK":"Honda","JT2":"Toyota","JTN":"Toyota","JTD":"Toyota","4T1":"Toyota",
-        "WBA":"BMW","WBS":"BMW","WDC":"Mercedes-Benz","W1N":"Mercedes-Benz","WAU":"Audi","WVW":"Volkswagen","WVG":"Volkswagen",
-        "JN1":"Nissan","1N4":"Nissan","KMH":"Hyundai","KM8":"Hyundai","KNA":"Kia","KND":"Kia","1FA":"Ford","1FT":"Ford","3FA":"Ford",
-        "1GC":"Chevrolet","1GN":"Chevrolet","1J4":"Jeep","1C4":"Chrysler","SAL":"Land Rover","SBM":"McLaren","SAD":"Jaguar"
+        "JTM":"Toyota", "JT2":"Toyota", "JTN":"Toyota", "JTD":"Toyota",
+        "JHM":"Honda", "1HG":"Honda", "5J6":"Honda",
+        "WBA":"BMW", "WDC":"Mercedes-Benz", "WAU":"Audi", "WVW":"Volkswagen",
+        "JN1":"Nissan", "KMH":"Hyundai", "KNA":"Kia", "1FA":"Ford", "1GC":"Chevrolet", "1J4":"Jeep"
     };
-
-    function handleInput(input) {
-        input.value = input.value.toUpperCase().replace(/[IOQ]/g, '');
-        document.getElementById("charCount").innerText = `${input.value.length}/17`;
-    }
-
-    function switchTab(t) {
-        document.getElementById('vinSection').style.display = t === 'vin' ? 'block' : 'none';
-        document.getElementById('finesSection').style.display = t === 'fines' ? 'block' : 'none';
-        document.getElementById('tabVin').classList.toggle('active', t === 'vin');
-        document.getElementById('tabFines').classList.toggle('active', t === 'fines');
-    }
 
     function decodeVIN() {
         const vin = document.getElementById("vinInput").value.trim();
-        if (vin.length !== 17) return;
+        if (vin.length !== 17) return alert("Please enter 17 digits.");
 
-        const brand = brands[vin.substring(0,3)] || "Technical Lookup";
-        const region = regions[vin[0]] || "Global Site";
-        const year = years[vin[9]] || "Manual Verify Required";
-        const logo = `https://logo.clearbit.com/${brand.toLowerCase().split(' ')[0]}.com`;
+        const brandName = brands[vin.substring(0,3)] || "Vehicle";
+        const year = years[vin[9]] || "Unknown";
+        const isJapan = vin[0] === 'J';
+        
+        // Logo fetching logic
+        const logoUrl = `https://logo.clearbit.com/${brandName.toLowerCase().replace(/\s/g, '')}.com`;
 
         document.getElementById("result").innerHTML = `
             <div class="card-result">
                 <div class="brand-header">
-                    <img src="${logo}" class="brand-logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/741/741407.png'">
+                    <img src="${logoUrl}" class="brand-logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/741/741407.png'">
                     <div>
-                        <h2 style="margin:0; font-size:18px;">${brand}</h2>
-                        <span style="color:#888; font-size:12px;">Serial: ${vin.substring(11)}</span>
+                        <h3 style="margin:0">${isJapan ? '🇯🇵 ' : ''}${brandName} Info</h3>
+                        <small style="color:var(--primary)">${vin}</small>
                     </div>
                 </div>
+
                 <div class="tech-grid">
-                    <div class="tech-item"><span class="tech-label">Production Year</span><span class="tech-val">${year}</span></div>
-                    <div class="tech-item"><span class="tech-label">Assembly Origin</span><span class="tech-val">${region}</span></div>
-                    <div class="tech-item"><span class="tech-label">WMI Code</span><span class="tech-val">${vin.substring(0,3)}</span></div>
-                    <div class="tech-item"><span class="tech-label">Security Digit</span><span class="tech-val">Verified (${vin[8]})</span></div>
+                    <div class="tech-item"><span class="tech-label">Model Year</span><span class="tech-val">${year}</span></div>
+                    <div class="tech-item"><span class="tech-label">Year Code</span><span class="tech-val">${vin[9]}</span></div>
                 </div>
-                <button class="secondary-btn" style="width:100%" onclick="navigator.clipboard.writeText('${vin}'); alert('VIN Copied!')">📋 Copy VIN for Official Use</button>
-                <button style="background:#007bff; color:white; margin-top:10px;" onclick="window.open('https://google.com/search?q=site:bidfax.info+${vin}')">🔍 Technical Photos History</button>
+
+                <button class="auction-btn" onclick="window.open('https://google.com/search?q=site:bidfax.info+${vin}')">🖼️ View Auction Photos (Free)</button>
             </div>
         `;
     }
