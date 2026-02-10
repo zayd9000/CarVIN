@@ -7,36 +7,37 @@
 </head>
 <body>
 
-  <!-- Top Branding -->
-  <div class="branding">
-    <div class="instagram">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png">
-      <span>@Zaid 90,000</span>
-    </div>
-
-    <select id="language" onchange="changeLanguage()">
-      <option value="en">English</option>
-      <option value="ku">کوردی</option>
-      <option value="ar">العربية</option>
-    </select>
+<!-- Branding -->
+<div class="branding">
+  <div class="instagram">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png">
+    <span>@Zaid 90,000</span>
   </div>
 
-  <!-- Main -->
-  <div class="container">
-    <h1 id="title">VIN Decoder 🚗</h1>
+  <select id="language" onchange="changeLanguage()">
+    <option value="en">English</option>
+    <option value="ku">کوردی</option>
+    <option value="ar">العربية</option>
+  </select>
+</div>
 
-    <input id="vinInput" maxlength="17" placeholder="Enter VIN">
-    <button onclick="decodeVIN()" id="decodeBtn">Decode</button>
+<!-- VIN INFO FIRST -->
+<div class="container info" id="vinInfoBox">
+  <h2 id="vinInfoTitle">How to read a VIN</h2>
+  <pre id="vinInfoText"></pre>
+  <button onclick="copyVinInfo()">📋 Copy VIN Info</button>
+</div>
 
-    <div id="result"></div>
-  </div>
+<!-- Decoder -->
+<div class="container">
+  <h1 id="title">VIN Decoder 🚗</h1>
 
-  <!-- VIN Education -->
-  <div class="container info">
-    <h2 id="vinInfoTitle">How VIN Numbers Work</h2>
-    <p id="vinInfoText"></p>
-  </div>
+  <input id="vinInput" maxlength="17">
+  <button onclick="decodeVIN()" id="decodeBtn">Decode</button>
 
-  <script src="script.js"></script>
+  <div id="result"></div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
