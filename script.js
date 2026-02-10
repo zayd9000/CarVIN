@@ -1,146 +1,98 @@
 let lang = "en";
+let history = JSON.parse(localStorage.getItem("vin_history")) || [];
 
-const vinInfoText = {
-  en: `VIN has 17 characters.
+const years = {
+    'A':2010, 'B':2011, 'C':2012, 'D':2013, 'E':2014, 'F':2015, 'G':2016, 'H':2017,
+    'J':2018, 'K':2019, 'L':2020, 'M':2021, 'N':2022, 'P':2023, 'R':2024, 'S':2025, 'T':2026
+};
 
-1st character = Country / Region
+// Expanded Brands (WMI Codes)
+const brands = {
+    "JHM": "Honda", "1HG": "Honda", "5FN": "Honda",
+    "JT2": "Toyota", "JTN": "Toyota", "4T1": "Toyota", "5TB": "Toyota",
+    "WBA": "BMW", "WBS": "BMW M", "4US": "BMW (USA)",
+    "WDC": "Mercedes-Benz", "W1N": "Mercedes-Benz", "4JG": "Mercedes-Benz",
+    "WAU": "Audi", "TRU": "Audi", "WVW": "Volkswagen", "WVG": "Volkswagen",
+    "1FA": "Ford", "1FT": "Ford", "1F6": "Ford",
+    "1G1": "Chevrolet", "1GC": "GMC", "1GN": "Chevrolet",
+    "JN1": "Nissan", "1N4": "Nissan", "5N1": "Nissan",
+    "KMH": "Hyundai", "KNA": "Kia", "SNA": "Kia",
+    "SAL": "Land Rover", "SAD": "Jaguar", "SCC": "Lotus",
+    "VF1": "Renault", "VF3": "Peugeot", "ZAR": "Alfa Romeo",
+    "WP0": "Porsche", "WPO": "Porsche", "JTH": "Lexus",
+    "LZE": "Isuzu", "KL3": "Chevrolet (Korea)", "MAL": "Suzuki"
+};
 
-USA & North America:
-1, 4, 5 → United States
-2 → Canada
-3 → Mexico
-
-Europe:
-W → Germany
-V → France / Spain
-S → United Kingdom
-Z → Italy
-Y → Sweden / Finland
-T → Switzerland
-
-Asia:
-J → Japan
-K → South Korea
-L → China
-M → India / Thailand / Indonesia
-
-Middle East & Africa:
-A–H → Africa
-N → Turkey
-
-South America:
-8, 9 → Brazil / Argentina / Chile
-`,
-  ar: `رقم VIN يتكون من 17 رمزاً.
-
-الرمز الأول = الدولة
-
-أمريكا الشمالية:
-1،4،5 → أمريكا
-2 → كندا
-3 → المكسيك
-
-أوروبا:
-W → ألمانيا
-V → فرنسا / إسبانيا
-S → بريطانيا
-Z → إيطاليا
-
-آسيا:
-J → اليابان
-K → كوريا الجنوبية
-L → الصين
-M → الهند / تايلند / إندونيسيا
-`,
-  ku: `VIN پێکهاتووە لە 17 پیت.
-
-پیتی یەکەم = وڵات
-
-ئەمریکا:
-1،4،5 → ئەمریکا
-2 → کەنەدا
-3 → مەکسیک
-
-ئەورووپا:
-W → ئەڵمانیا
-S → بەریتانیا
-Z → ئیتالیا
-
-ئاسیا:
-J → ژاپۆن
-K → کۆریای باشوور
-L → چین
-M → هیند / تایلاند / ئیندۆنیزیا
-`
+const translations = {
+    en: {
+        title: "VIN Decoder 🚗", btn: "Decode", history: "Recent Searches",
+        struct: "VIN Structure Guide", brand: "Brand", year: "Year",
+        serial: "Serial", wmi: "WMI Code", country: "Country Code"
+    },
+    ar: {
+        title: "فحص VIN 🚗", btn: "تحليل", history: "عمليات البحث الأخيرة",
+        struct: "دليل هيكل رقم الشاصي", brand: "الشركة", year: "السنة",
+        serial: "الرقم التسلسلي", wmi: "رمز المصنع", country: "رمز الدولة"
+    },
+    ku: {
+        title: "VIN پشکنین 🚗", btn: "پشکنین", history: "گەڕانەکانی دوایی",
+        struct: "ڕێبەری پێکهاتەی VIN", brand: "مارکە", year: "ساڵ",
+        serial: "ژمارەی زنجیرە", wmi: "کۆدی کارگە", country: "کۆدی وڵات"
+    }
 };
 
 function changeLanguage() {
-  lang = language.value;
-
-  title.innerText =
-    lang === "ku" ? "VIN پشکنین 🚗" :
-    lang === "ar" ? "فحص VIN 🚗" :
-    "VIN Decoder 🚗";
-
-  decodeBtn.innerText =
-    lang === "ku" ? "پشکنین" :
-    lang === "ar" ? "تحليل" :
-    "Decode";
-
-  vinInput.placeholder =
-    lang === "ku" ? "ژمارەی VIN بنووسە" :
-    lang === "ar" ? "اكتب رقم VIN" :
-    "Enter VIN number";
-
-  vinInfoTextElem.innerText = vinInfoText[lang];
+    lang = document.getElementById("language").value;
+    const t = translations[lang];
+    
+    document.getElementById("title").innerText = t.title;
+    document.getElementById("decodeBtn").innerText = t.btn;
+    document.getElementById("historyTitle").innerText = t.history;
+    document.getElementById("structureTitle").innerText = t.struct;
+    document.getElementById("vinInfoText").innerText = vinInfoText[lang];
+    
+    document.body.style.direction = (lang === 'en') ? 'ltr' : 'rtl';
+    updateHistoryUI();
 }
 
-const vinInfoTextElem = document.getElementById("vinInfoText");
-changeLanguage();
+function decodeVIN(inputVin = null) {
+    const vin = (inputVin || document.getElementById("vinInput").value).toUpperCase().trim();
+    if (vin.length !== 17) return;
 
-function copyVinInfo() {
-  navigator.clipboard.writeText(vinInfoText[lang]);
-  alert("VIN info copied ✅");
+    const wmi = vin.substring(0, 3);
+    const brandName = brands[wmi] || "Unknown Brand";
+    const year = years[vin[9]] || "Pre-2010 / Unknown";
+
+    // Update Result
+    document.getElementById("result").innerHTML = `
+        <div class="card">
+            <p><b>${translations[lang].brand}:</b> ${brandName}</p>
+            <p><b>${translations[lang].year}:</b> ${year} (${vin[9]})</p>
+            <p><b>${translations[lang].wmi}:</b> ${wmi}</p>
+            <p><b>${translations[lang].serial}:</b> ${vin.slice(11)}</p>
+        </div>
+    `;
+
+    if (!inputVin) saveToHistory(vin);
 }
 
-function decodeVIN() {
-  const vin = vinInput.value.toUpperCase();
-  if (vin.length !== 17) return;
-
-  const brands = {
-    JHM: ["Honda", "logos/honda.png"],
-    JT2: ["Toyota", "logos/toyota.png"],
-    JTN: ["Toyota", "logos/toyota.png"],
-    WBA: ["BMW", "logos/bmw.png"],
-    WDC: ["Mercedes-Benz", "logos/mercedes.png"],
-    WAU: ["Audi", "logos/audi.png"],
-    WVW: ["Volkswagen", "logos/volkswagen.png"],
-    JN1: ["Nissan", "logos/nissan.png"],
-    KMH: ["Hyundai", "logos/hyundai.png"],
-    KNA: ["Kia", "logos/kia.png"],
-    1HG: ["Honda", "logos/honda.png"],
-    1FT: ["Ford", "logos/ford.png"],
-    1FA: ["Ford", "logos/ford.png"],
-    1G1: ["Chevrolet", "logos/chevrolet.png"],
-    1GC: ["GMC", "logos/gmc.png"],
-    SAL: ["Land Rover", "logos/landrover.png"],
-    VF1: ["Renault", "logos/renault.png"],
-    VF3: ["Peugeot", "logos/peugeot.png"],
-    WP0: ["Porsche", "logos/porsche.png"],
-    JTH: ["Lexus", "logos/lexus.png"]
-  };
-
-  const wmi = vin.substring(0,3);
-  const brand = brands[wmi] || ["Unknown", ""];
-
-  result.innerHTML = `
-    <div class="card">
-      ${brand[1] ? `<img class="logo" src="${brand[1]}">` : ""}
-      <p><b>Brand:</b> ${brand[0]}</p>
-      <p><b>WMI:</b> ${wmi}</p>
-      <p><b>Country Code:</b> ${vin[0]}</p>
-      <p><b>Year Code:</b> ${vin[9]}</p>
-      <p><b>Serial Number:</b> ${vin.slice(11)}</p>
-    </div>
-  `;
+function saveToHistory(vin) {
+    if (history.includes(vin)) return;
+    history.unshift(vin);
+    if (history.length > 5) history.pop();
+    localStorage.setItem("vin_history", JSON.stringify(history));
+    updateHistoryUI();
 }
+
+function updateHistoryUI() {
+    const list = document.getElementById("historyList");
+    list.innerHTML = history.map(v => 
+        `<div class="history-item" onclick="decodeVIN('${v}')">${v}</div>`
+    ).join('');
+}
+
+// Initialize on load
+window.onload = () => {
+    changeLanguage();
+    updateHistoryUI();
+};
