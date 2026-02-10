@@ -30,7 +30,7 @@
 
         /* VIN Decoder Input */
         .input-wrapper { position: relative; }
-        input#vinInput { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #333; background: #000; color: var(--primary); font-family: monospace; font-size: 18px; box-sizing: border-box; outline: none; }
+        input#vinInput { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #333; background: #000; color: var(--primary); font-family: monospace; font-size: 18px; box-sizing: border-box; outline: none; text-align: center; }
         #charCount { position: absolute; right: 12px; top: 18px; font-size: 11px; color: #666; }
         #errorMsg { color: #ff4d4d; font-size: 11px; height: 18px; margin-top: 5px; font-weight: bold; }
 
@@ -44,14 +44,12 @@
         .info-list li { margin-bottom: 5px; position: relative; padding-left: 15px; }
         .info-list li::before { content: "•"; color: var(--primary); position: absolute; left: 0; font-weight: bold; }
 
-        /* History & Cards */
+        /* History & Result Cards */
         .history-item { background: #252525; padding: 12px; margin: 8px 0; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; font-family: monospace; font-size: 13px; }
-        
-        /* Result Card with Logo Layout */
         .card-result { background: #2a2a2a; padding: 15px; border-radius: 10px; text-align: left; border-left: 4px solid var(--primary); margin-top: 15px; animation: slideUp 0.3s ease; }
-        .brand-header { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
+        
+        .brand-header { display: flex; align-items: center; gap: 15px; margin-bottom: 12px; }
         .brand-logo { width: 45px; height: 45px; background: white; border-radius: 8px; padding: 4px; object-fit: contain; flex-shrink: 0; }
-        .brand-text-content { display: flex; flex-direction: column; }
         
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -124,7 +122,6 @@
             <div>✅ Registration No. (ژمارەی ساڵنامە)</div>
         </div>
         <button class="fines-go-btn" onclick="window.open('https://htp.moi.gov.krd/fines_form.php')">🌐 Open Official Portal</button>
-        <p style="font-size: 11px; color: #555; margin-top: 15px;">Ministry of Interior - Kurdistan Region</p>
     </div>
 </div>
 
@@ -134,12 +131,18 @@
 
     const years = {'A':2010,'B':2011,'C':2012,'D':2013,'E':2014,'F':2015,'G':2016,'H':2017,'J':2018,'K':2019,'L':2020,'M':2021,'N':2022,'P':2023,'R':2024,'S':2025,'T':2026};
     const flags = {'1':'🇺🇸','4':'🇺🇸','5':'🇺🇸','2':'🇨🇦','3':'🇲🇽','J':'🇯🇵','K':'🇰🇷','W':'🇩🇪','S':'🇬🇧','V':'🇫🇷','Z':'🇮🇹','L':'🇨🇳'};
-    const brands = {"JHM":"Honda","1HG":"Honda","JT2":"Toyota","JTN":"Toyota","WBA":"BMW","WDC":"Mercedes-Benz","WAU":"Audi","WVW":"Volkswagen","JN1":"Nissan","KMH":"Hyundai","KNA":"Kia", "1FA":"Ford", "1GC":"Chevrolet", "1J4":"Jeep", "SAL":"Land Rover"};
+    
+    // Brand Dictionary
+    const brands = {
+        "JHM":"Honda","1HG":"Honda","5J6":"Honda","JT2":"Toyota","JTN":"Toyota","JTD":"Toyota","JTM":"Toyota",
+        "WBA":"BMW","WBS":"BMW","WDC":"Mercedes-Benz","W1N":"Mercedes-Benz","WAU":"Audi","WVW":"Volkswagen",
+        "JN1":"Nissan","KMH":"Hyundai","KNA":"Kia","1FA":"Ford","1GC":"Chevrolet","1J4":"Jeep","SAL":"Land Rover"
+    };
 
     const translations = {
-        en: { title:"VIN Decoder 🚗", btn:"Decode", hist:"Recent Searches", struct:"Complete VIN Guide", tabVin:"VIN Decoder", tabFines:"Erbil Fines", finesTitle:"Traffic Fines", li1:"<b>1-3:</b> Country & Manufacturer", li2:"<b>4-8:</b> Engine, Type, & Model", li3:"<b>9:</b> Security Check Digit", li4:"<b>10:</b> Model Year (R = 2024)", li5:"<b>11:</b> Assembly Plant Location", li6:"<b>12-17:</b> Unique Serial No." },
-        ar: { title:"فحص الشاصي 🚗", btn:"تحليل", hist:"الأخيرة", struct:"دليل VIN الكامل", tabVin:"فحص VIN", tabFines:"غرامات أربيل", finesTitle:"غرامات المرور", li1:"<b>١-٣:</b> البلد والشركة المصنعة", li2:"<b>٤-٨:</b> المحرك، النوع، والطراز", li3:"<b>٩:</b> رقم التحقق الأمني", li4:"<b>١٠:</b> سنة الصنع (R = ٢٠٢٤)", li5:"<b>١١:</b> كود مصنع التجميع", li6:"<b>١٢-١٧:</b> الرقم التسلسلي الفريد" },
-        ku: { title:"پشکنینی VIN 🚗", btn:"پشکنین", hist:"گەڕانەکان", struct:"ڕێبەری تەواوی VIN", tabVin:"پشکنینی VIN", tabFines:"سزاکانی هەولێر", finesTitle:"سزاکانی هاتووچۆ", li1:"<b>١-٣:</b> وڵات و کۆمپانیای بەرهەمهێنەر", li2:"<b>٤-٨:</b> جۆری بزوێنەر و مۆدێل", li3:"<b>٩:</b> کۆدی دڵنیایی", li4:"<b>١٠:</b> ساڵی بەرهەمهێنان (R = ٢٠٢٤)", li5:"<b>١١:</b> کۆدی کارگەی بەستنەوە", li6:"<b>١٢-١٧:</b> ژمارەی زنجیرەیی تاقانە" }
+        en: { title:"VIN Decoder 🚗", btn:"Decode & Search", hist:"Recent Searches", struct:"Complete VIN Guide", tabVin:"VIN Decoder", tabFines:"Erbil Fines", finesTitle:"Traffic Fines", li1:"<b>1-3:</b> Country & Manufacturer", li2:"<b>4-8:</b> Engine, Type, & Model", li3:"<b>9:</b> Security Check Digit", li4:"<b>10:</b> Model Year (R = 2024)", li5:"<b>11:</b> Assembly Plant Location", li6:"<b>12-17:</b> Unique Serial No." },
+        ar: { title:"فحص الشاصي 🚗", btn:"تحليل وبحث", hist:"عمليات البحث الأخيرة", struct:"دليل VIN الكامل", tabVin:"فحص VIN", tabFines:"غرامات أربيل", finesTitle:"غرامات المرور", li1:"<b>١-٣:</b> البلد والشركة المصنعة", li2:"<b>٤-٨:</b> المحرك، النوع، والطراز", li3:"<b>٩:</b> رقم التحقق الأمني", li4:"<b>١٠:</b> سنة الصنع (R = ٢٠٢٤)", li5:"<b>١١:</b> كود مصنع التجميع", li6:"<b>١٢-١٧:</b> الرقم التسلسلي الفريد" },
+        ku: { title:"پشکنینی VIN 🚗", btn:"پشکنین و گەڕان", hist:"دوایین گەڕانەکان", struct:"ڕێبەری تەواوی VIN", tabVin:"پشکنینی VIN", tabFines:"سزاکانی هەولێر", finesTitle:"سزاکانی هاتووچۆ", li1:"<b>١-٣:</b> وڵات و کۆمپانیای بەرهەمهێنەر", li2:"<b>٤-٨:</b> جۆری بزوێنەر و مۆدێل", li3:"<b>٩:</b> کۆدی دڵنیایی", li4:"<b>١٠:</b> ساڵی بەرهەمهێنان (R = ٢٠٢٤)", li5:"<b>١١:</b> کۆدی کارگەی بەستنەوە", li6:"<b>١٢-١٧:</b> ژمارەی زنجیرەیی تاقانە" }
     };
 
     function switchTab(tab) {
@@ -178,23 +181,18 @@
 
     function decodeVIN(inputVin = null) {
         const vin = (inputVin || document.getElementById("vinInput").value).toUpperCase().trim();
-        if (vin.length !== 17) {
-            document.getElementById("errorMsg").innerText = "Please enter all 17 characters";
-            return;
-        }
+        if (vin.length !== 17) return;
 
         const flag = flags[vin[0]] || '🏳️';
         const brand = brands[vin.substring(0,3)] || "Vehicle Info";
-        const year = years[vin[9]] || "Unknown Year";
-        
-        // Brand Logo fetching using Clearbit API
+        const year = years[vin[9]] || "N/A";
         const logoUrl = `https://logo.clearbit.com/${brand.toLowerCase().replace(/\s/g, '')}.com`;
 
         document.getElementById("result").innerHTML = `
             <div class="card-result">
                 <div class="brand-header">
                     <img src="${logoUrl}" class="brand-logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/741/741407.png'">
-                    <div class="brand-text-content">
+                    <div>
                         <div style="font-size: 18px; font-weight:bold;">${flag} ${brand}</div>
                         <div style="color: #bbb; font-size: 13px;">Year Code: ${vin[9]} (${year})</div>
                     </div>
