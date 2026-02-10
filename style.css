@@ -1,91 +1,68 @@
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
   background: #0f0f0f;
-  color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  color: white;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  text-align: center;
 }
 
 .branding {
-  text-align: center;
-  margin-top: 25px;
+  margin-top: 20px;
 }
 
-.brand-name {
-  font-size: 18px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-
-.kurdistan {
+.instagram {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
-  margin-top: 6px;
-  font-size: 14px;
-  color: #cccccc;
-}
-
-.kurdistan img {
-  width: 26px;
-  border-radius: 2px;
-}
-
-.container {
-  background: #1b1b1b;
-  margin-top: 30px;
-  padding: 25px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 420px;
-  text-align: center;
-  box-shadow: 0 0 25px rgba(0,0,0,0.6);
-}
-
-input {
-  width: 100%;
-  padding: 12px;
-  margin-top: 15px;
-  border-radius: 8px;
-  border: none;
-  font-size: 16px;
-  text-transform: uppercase;
-}
-
-button {
-  margin-top: 15px;
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
-  background: #1db954;
-  color: #ffffff;
   font-weight: bold;
 }
 
-button:hover {
-  background: #17a44a;
+.instagram img {
+  width: 22px;
+}
+
+select {
+  margin-top: 10px;
+  padding: 5px;
+  border-radius: 6px;
+}
+
+.container {
+  background: #1c1c1c;
+  margin: 25px auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 450px;
+  border-radius: 12px;
+}
+
+input, button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+}
+
+button {
+  background: #1db954;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .card {
-  background: #262626;
-  margin-top: 20px;
+  background: #2a2a2a;
+  margin-top: 15px;
   padding: 15px;
   border-radius: 10px;
   text-align: left;
 }
 
-.card h3 {
-  margin-top: 0;
-}
-
 .logo {
   width: 80px;
-  display: block;
   margin: 10px auto;
+  display: block;
 }
