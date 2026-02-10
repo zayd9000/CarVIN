@@ -1,78 +1,41 @@
-body {
-  background: #0f0f0f;
-  color: white;
-  font-family: Arial, sans-serif;
-  margin: 0;
-  text-align: center;
+/* Add to your existing CSS */
+
+.vin-example {
+    background: #111;
+    padding: 15px;
+    border-radius: 8px;
+    font-family: monospace;
+    font-size: 1.2rem;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+    border: 1px dashed #555;
+    display: flex;
+    justify-content: center;
 }
 
-.branding {
-  margin-top: 20px;
+.vin-example span {
+    padding: 2px 5px;
+    cursor: help;
 }
 
-.instagram {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  font-weight: bold;
+.vin-example span:nth-child(10) { color: #1db954; font-weight: bold; } /* Year Highlight */
+
+.history-box {
+    text-align: left;
 }
 
-.instagram img {
-  width: 22px;
+.history-item {
+    background: #2a2a2a;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 14px;
+    color: #bbb;
 }
 
-select {
-  margin-top: 10px;
-  padding: 6px;
-  border-radius: 6px;
-}
-
-.container {
-  background: #1c1c1c;
-  margin: 25px auto;
-  padding: 20px;
-  width: 90%;
-  max-width: 480px;
-  border-radius: 12px;
-}
-
-input, button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border-radius: 8px;
-  border: none;
-  font-size: 16px;
-}
-
-button {
-  background: #1db954;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.info button {
-  background: #444;
-}
-
-.card {
-  background: #2a2a2a;
-  margin-top: 15px;
-  padding: 15px;
-  border-radius: 10px;
-  text-align: left;
-}
-
-.logo {
-  width: 90px;
-  margin: 10px auto;
-  display: block;
-}
-
-pre {
-  white-space: pre-wrap;
-  text-align: left;
-  font-family: inherit;
+.history-item:hover {
+    background: #333;
+    color: #1db954;
 }
