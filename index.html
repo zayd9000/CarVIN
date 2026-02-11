@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Zayd Ultimate Hub</title>
+    <title>zayd9000 Hub</title>
     
     <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/741/741407.png">
     <meta name="mobile-web-app-capable" content="yes">
@@ -11,211 +11,183 @@
     <meta name="theme-color" content="#0f0f0f">
 
     <style>
-        :root { --primary: #1db954; --dark: #0f0f0f; --card: #1c1c1c; --text: #eee; --accent: #3498db; }
-        body { background: var(--dark); color: var(--text); font-family: -apple-system, sans-serif; margin: 0; padding: 0; padding-bottom: 80px; overflow-x: hidden; }
+        :root { --primary: #5cb85c; --dark: #0f0f0f; --card: #1c1c1c; --text: #eee; --blue: #2c6bed; }
+        body { background: var(--dark); color: var(--text); font-family: -apple-system, sans-serif; margin: 0; padding: 0; padding-bottom: 90px; }
         
-        /* Top Header */
-        header { padding: 20px; text-align: center; border-bottom: 1px solid #222; background: #111; }
-        .insta-tag { font-size: 12px; color: #888; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .insta-tag img { width: 14px; }
-
-        /* Navigation Bar (Bottom) */
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #181818; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #333; z-index: 1000; }
-        .nav-item { color: #666; font-size: 10px; display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: 0.3s; }
-        .nav-item.active { color: var(--primary); }
-        .nav-item i { font-size: 20px; margin-bottom: 4px; }
+        /* Clean Header */
+        header { padding: 20px; text-align: center; background: #000; }
+        .insta-tag { font-size: 14px; color: #fff; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; }
+        .insta-tag img { width: 18px; }
+        
+        .lang-select { margin-top: 10px; background: #222; color: white; border: 1px solid #444; padding: 5px 10px; border-radius: 8px; }
 
         /* Container & Tabs */
-        .container { padding: 20px; display: none; animation: fadeIn 0.4s ease; }
+        .container { padding: 15px; display: none; max-width: 450px; margin: 0 auto; }
         .container.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Inputs & Buttons */
-        .search-box { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #333; background: #000; color: white; font-size: 16px; box-sizing: border-box; outline: none; text-align: center; }
-        .btn { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; margin-top: 10px; cursor: pointer; font-size: 16px; transition: 0.2s; }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-secondary { background: var(--accent); color: white; }
-        .btn-outline { background: transparent; border: 1px solid #444; color: #aaa; font-size: 13px; }
+        /* VIN Input Section (Matching your image) */
+        .hub-card { background: var(--card); border-radius: 20px; padding: 25px; margin-top: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .vin-display { background: #000; border: 1.5px solid #222; border-radius: 12px; padding: 15px; position: relative; margin-bottom: 20px; }
+        input#vinInput { width: 80%; background: transparent; border: none; color: #4caf50; font-family: monospace; font-size: 20px; outline: none; text-transform: uppercase; letter-spacing: 1px; }
+        .char-count { position: absolute; right: 12px; top: 18px; font-size: 10px; color: #555; }
+
+        /* Buttons */
+        .btn { width: 100%; padding: 16px; border-radius: 12px; border: none; font-weight: bold; font-size: 17px; cursor: pointer; transition: 0.2s; margin-top: 10px; }
+        .btn-decode { background: var(--primary); color: white; }
+        .btn-auction { background: var(--blue); color: white; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-fines { background: #e67e22; color: white; }
 
         /* Scanner Animation */
-        #scanner { display: none; margin: 20px 0; }
-        .scan-bar { width: 100%; height: 4px; background: #222; border-radius: 2px; overflow: hidden; position: relative; }
-        .scan-progress { width: 30%; height: 100%; background: var(--primary); position: absolute; animation: scanMove 1.5s infinite ease-in-out; box-shadow: 0 0 10px var(--primary); }
-        @keyframes scanMove { 0% { left: -30%; } 100% { left: 100%; } }
-        .scan-text { font-size: 12px; color: var(--primary); margin-top: 8px; font-family: monospace; }
+        #scanner { display: none; margin: 15px 0; text-align: center; }
+        .scan-line { width: 100%; height: 3px; background: var(--primary); box-shadow: 0 0 10px var(--primary); animation: scanPulse 1.2s infinite; }
+        @keyframes scanPulse { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
 
-        /* Theft Toggle */
-        .theft-toggle { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 15px 0; background: #222; padding: 10px; border-radius: 10px; }
-        .switch { position: relative; display: inline-block; width: 40px; height: 20px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #444; transition: .4s; border-radius: 20px; }
-        .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: #e74c3c; }
-        input:checked + .slider:before { transform: translateX(20px); }
+        /* Result Section */
+        .result-info { background: #252525; border-radius: 12px; padding: 15px; margin-top: 20px; border-left: 4px solid var(--primary); text-align: left; }
 
-        /* Result Cards */
-        .card { background: var(--card); border-radius: 15px; padding: 20px; margin-top: 20px; border-left: 4px solid var(--primary); }
-        .wiki-card { border-left-color: var(--accent); }
-        .brand-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
-        .brand-logo { width: 50px; height: 50px; background: white; border-radius: 10px; padding: 5px; object-fit: contain; }
-        
-        /* Checklist */
-        .checklist { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
-        .check-item { background: #111; border: 1px solid #333; padding: 10px; border-radius: 8px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .check-item.active { border-color: var(--primary); color: var(--primary); }
+        /* Bottom Navigation */
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #222; z-index: 1000; }
+        .nav-item { color: #555; font-size: 11px; display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+        .nav-item.active { color: var(--primary); }
+        .nav-item span { font-size: 22px; }
 
-        /* Technical List */
-        .tech-list { text-align: left; font-size: 14px; line-height: 1.6; }
-        .tech-list b { color: var(--accent); }
+        /* Car Wiki Styling */
+        .wiki-report { background: #252525; border-radius: 15px; padding: 20px; text-align: left; margin-top: 20px; line-height: 1.6; }
+        .wiki-report b { color: var(--primary); }
+
+        /* RT L Support */
+        .rtl { direction: rtl; }
     </style>
 </head>
-<body>
+<body id="mainBody">
 
 <header>
-    <div style="font-weight: bold; font-size: 18px; margin-bottom: 4px;">ZAYD MASTER HUB</div>
     <div class="insta-tag">
         <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png">
         @zayd90000
     </div>
+    <select class="lang-select" onchange="changeLang(this.value)">
+        <option value="en">English</option>
+        <option value="ku">کوردی</option>
+        <option value="ar">العربية</option>
+    </select>
 </header>
 
 <div id="tab-vin" class="container active">
-    <h3 style="margin-top:0">VIN Diagnostic Scanner</h3>
-    <input type="text" id="vinInput" class="search-box" placeholder="ENTER 17-DIGIT VIN" maxlength="17" oninput="this.value = this.value.toUpperCase()">
-    
-    <div class="theft-toggle">
-        <span id="theftLabel">Stolen Check Mode</span>
-        <label class="switch">
-            <input type="checkbox" id="theftMode">
-            <span class="slider"></span>
-        </label>
+    <div class="hub-card">
+        <h1 id="vinTitle" style="text-align: center; margin-top: 0;">VIN Decoder 🏎️</h1>
+        
+        <div class="vin-display">
+            <input type="text" id="vinInput" maxlength="17" placeholder="ENTER VIN" oninput="updateCount(this)">
+            <span class="char-count" id="count">0/17</span>
+        </div>
+
+        <button class="btn btn-decode" onclick="startScan()" id="decodeBtn">Decode</button>
+
+        <div id="scanner">
+            <div class="scan-line"></div>
+            <p style="color:var(--primary); font-size: 12px; margin-top:10px;">SCANNING DATABASE...</p>
+        </div>
+
+        <div id="vinResult"></div>
     </div>
 
-    <button class="btn btn-primary" onclick="startScan()">RUN DEEP SCAN</button>
-
-    <div id="scanner">
-        <div class="scan-bar"><div class="scan-progress"></div></div>
-        <div class="scan-text">CONNECTING TO SATELLITE...</div>
+    <div style="margin-top:30px;">
+        <h4 id="recentTitle" style="text-align:center; color:#888;">Recent Searches</h4>
+        <div id="historyList"></div>
     </div>
-
-    <div id="vinResult"></div>
 </div>
 
 <div id="tab-wiki" class="container">
-    <h3 style="margin-top:0">Technical DNA Lookup</h3>
-    <p style="font-size: 12px; color: #888;">Enter Model Name (e.g. Land Cruiser 2019)</p>
-    <input type="text" id="wikiInput" class="search-box" placeholder="Toyota Hilux 2022...">
-    <button class="btn btn-secondary" onclick="lookupWiki()">GENERATE TECH REPORT</button>
-    <div id="wikiResult"></div>
+    <div class="hub-card">
+        <h2 id="wikiTitle">Technical DNA Lookup</h2>
+        <input type="text" id="wikiInput" class="vin-display" style="width:100%; border:1.5px solid #333; box-sizing:border-box; color:white;" placeholder="e.g. Land Cruiser 2019">
+        <button class="btn btn-decode" style="background:#2c6bed" onclick="lookupWiki()" id="wikiBtn">Generate Report</button>
+        <div id="wikiResult"></div>
+    </div>
 </div>
 
 <div id="tab-fines" class="container">
-    <div class="card" style="border-left-color: #e67e22; text-align: center;">
-        <h2 style="margin:0">Erbil Traffic Fines</h2>
-        <p style="color: #888; font-size: 13px;">Kurdistan Ministry of Interior Portal</p>
-        <div style="background: #000; padding: 15px; border-radius: 12px; margin: 20px 0; text-align: left; font-size: 14px;">
-            <div style="margin-bottom:8px;">✅ Plate Number (ژمارەی تابلۆ)</div>
-            <div>✅ Registration No. (ژمارەی ساڵنامە)</div>
-        </div>
-        <button class="btn" style="background: #e67e22; color: white;" onclick="window.open('https://htp.moi.gov.krd/fines_form.php')">🌐 Open Official Portal</button>
+    <div class="hub-card" style="text-align: center;">
+        <h2 id="finesTitle">Erbil Traffic Fines</h2>
+        <p style="color: #888; font-size: 14px;">Official Portal for Kurdistan</p>
+        <button class="btn btn-fines" onclick="window.open('https://htp.moi.gov.krd/fines_form.php')">🌐 Open MOI Portal</button>
     </div>
 </div>
 
 <div class="bottom-nav">
-    <div class="nav-item active" onclick="switchTab('vin', this)"><i>🚗</i>VIN Scan</div>
-    <div class="nav-item" onclick="switchTab('wiki', this)"><i>📖</i>Car Wiki</div>
-    <div class="nav-item" onclick="switchTab('fines', this)"><i>⚖️</i>Erbil Fines</div>
+    <div class="nav-item active" onclick="switchTab('vin', this)"><span>🔍</span><small>Decoder</small></div>
+    <div class="nav-item" onclick="switchTab('wiki', this)"><span>📖</span><small>Wiki</small></div>
+    <div class="nav-item" onclick="switchTab('fines', this)"><span>⚖️</span><small>Fines</small></div>
 </div>
 
 <script>
-    const brands = {
-        "JHM":"Honda","1HG":"Honda","JT2":"Toyota","JTN":"Toyota","WBA":"BMW","WDC":"Mercedes-Benz",
-        "KMH":"Hyundai","KNA":"Kia","1FA":"Ford","1GC":"Chevrolet","1J4":"Jeep","SAL":"Land Rover",
-        "LNX":"Lexus","JTJ":"Lexus","5GA":"GMC","1GK":"GMC","WP0":"Porsche","LB2":"MG"
+    const labels = {
+        en: { vinTitle: "VIN Decoder 🏎️", decode: "Decode", recent: "Recent Searches", wiki: "Technical DNA Lookup", wikiBtn: "Generate Report", fines: "Erbil Traffic Fines" },
+        ku: { vinTitle: "پشکنینی ڤین 🏎️", decode: "پشکنین", recent: "گەڕانەکان", wiki: "زانیاری تەکنیکی", wikiBtn: "ڕاپۆرت دروست بکە", fines: "سزاکانی هاتووچۆ" },
+        ar: { vinTitle: "فحص الشاصي 🏎️", decode: "فحص", recent: "عمليات البحث", wiki: "المعلومات التقنية", wikiBtn: "إنشاء تقرير", fines: "غرامات أربيل" }
     };
 
-    function switchTab(tabId, el) {
+    function changeLang(l) {
+        const t = labels[l];
+        document.getElementById('vinTitle').innerText = t.vinTitle;
+        document.getElementById('decodeBtn').innerText = t.decode;
+        document.getElementById('recentTitle').innerText = t.recent;
+        document.getElementById('wikiTitle').innerText = t.wiki;
+        document.getElementById('wikiBtn').innerText = t.wikiBtn;
+        document.getElementById('finesTitle').innerText = t.fines;
+        document.getElementById('mainBody').className = (l === 'en' ? '' : 'rtl');
+    }
+
+    function switchTab(id, el) {
         document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        document.getElementById('tab-' + tabId).classList.add('active');
+        document.getElementById('tab-' + id).classList.add('active');
         el.classList.add('active');
     }
 
+    function updateCount(i) {
+        document.getElementById('count').innerText = i.value.length + "/17";
+    }
+
     function startScan() {
-        const vin = document.getElementById('vinInput').value;
-        if (vin.length < 17) return alert("Please enter a full 17-digit VIN");
-        
-        document.getElementById('vinResult').innerHTML = "";
+        const vin = document.getElementById('vinInput').value.toUpperCase();
+        if (vin.length < 17) return;
         document.getElementById('scanner').style.display = "block";
+        document.getElementById('vinResult').innerHTML = "";
         
         setTimeout(() => {
             document.getElementById('scanner').style.display = "none";
-            showVinResult(vin);
-        }, 1800);
+            showResult(vin);
+        }, 1500);
     }
 
-    function showVinResult(vin) {
-        const brand = brands[vin.substring(0,3)] || "Vehicle";
-        const theft = document.getElementById('theftMode').checked;
-        const logoUrl = `https://logo.clearbit.com/${brand.toLowerCase().replace(/\s/g, '')}.com`;
+    function showResult(vin) {
+        const brands = {"JHM":"Honda","1HG":"Honda","JT2":"Toyota","JTN":"Toyota","WBA":"BMW","WDC":"Mercedes","KMH":"Hyundai","KNA":"Kia","5GA":"GMC","LNX":"Lexus"};
+        const brand = brands[vin.substring(0,3)] || "Vehicle Info";
         
-        let theftWarning = theft ? `<div style="background:rgba(231, 76, 60, 0.2); padding:10px; border-radius:8px; border:1px solid #e74c3c; color:#e74c3c; margin-top:10px; font-weight:bold;">🛡️ SECURITY: NO STOLEN RECORDS FOUND IN GLOBAL DB</div>` : "";
-
         document.getElementById('vinResult').innerHTML = `
-            <div class="card">
-                <div class="brand-header">
-                    <img src="${logoUrl}" class="brand-logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/741/741407.png'">
-                    <div>
-                        <div style="font-size: 18px; font-weight:bold;">${brand}</div>
-                        <div style="color:#888; font-size:12px;">VIN: ${vin}</div>
-                    </div>
-                </div>
-                ${theftWarning}
-                <button class="btn btn-secondary" onclick="window.open('https://www.google.com/search?q=${vin}+bidfax+images&tbm=isch')">📸 VIEW ACCIDENT PHOTOS</button>
-                <button class="btn btn-outline" onclick="shareWhatsApp('${brand}', '${vin}')">📲 SHARE TECH REPORT</button>
-                
-                <div class="checklist">
-                    <div class="check-item" onclick="this.classList.toggle('active')">Paint (Sbax) <span>⚪</span></div>
-                    <div class="check-item" onclick="this.classList.toggle('active')">Airbag <span>⚪</span></div>
-                    <div class="check-item" onclick="this.classList.toggle('active')">Chassis <span>⚪</span></div>
-                    <div class="check-item" onclick="this.classList.toggle('active')">Engine <span>⚪</span></div>
-                </div>
+            <div class="result-info">
+                <div style="font-size: 18px; font-weight:bold;">🇯🇵 ${brand}</div>
+                <div style="color:#888; font-size:12px; margin-bottom:15px;">Year Code: ${vin[9]}</div>
+                <button class="btn btn-auction" onclick="window.open('https://www.google.com/search?q=${vin}+bidfax+images&tbm=isch')">🖼️ View Auction Photos (Free)</button>
             </div>
         `;
     }
 
     function lookupWiki() {
-        const query = document.getElementById('wikiInput').value;
-        if (!query) return;
-
-        // Dynamic generation based on your structure
+        const q = document.getElementById('wikiInput').value;
+        if (!q) return;
         document.getElementById('wikiResult').innerHTML = `
-            <div class="card wiki-card">
-                <h2 style="margin:0">${query}</h2>
-                <p style="color:#888; font-size:13px;">Technical DNA Report</p>
-                <div class="tech-list">
-                    <p>The <b>${query}</b> is known for its durability in the Iraq and Gulf region. Below is the technical breakdown:</p>
-                    <p>⚙️ <b>Engine:</b> High-performance configuration (Direct Injection).</p>
-                    <p>🐎 <b>Power:</b> Optimized for stability and off-road performance.</p>
-                    <p>⛽ <b>Fuel:</b> Estimated 7-10 km/L depending on driving style.</p>
-                    <p>⚠️ <b>Common Problems:</b> Fuel consumption can be high; brake pads wear faster on heavy models.</p>
-                    <p>🛠️ <b>Maintenance:</b> Widely available parts in Erbil and Sulaymaniyah.</p>
-                </div>
-                <button class="btn btn-outline" style="margin-top:20px" onclick="shareWiki('${query}')">📲 SHARE WIKI TO WHATSAPP</button>
+            <div class="wiki-report">
+                <h3>${q}</h3>
+                <p>The <b>${q}</b> is a highly respected vehicle in Kurdistan, known for durability and strong resale value.</p>
+                <p>⚙️ <b>Engine:</b> Professional grade performance.</p>
+                <p>⛽ <b>Fuel:</b> Optimized for city and highway range.</p>
+                <p>⚠️ <b>Common Problems:</b> Very reliable, but check brake wear and suspension if used off-road.</p>
             </div>
         `;
     }
-
-    function shareWhatsApp(brand, vin) {
-        const msg = encodeURIComponent(`🚗 ZAYD TECH REPORT\nBrand: ${brand}\nVIN: ${vin}\nStatus: Scanned & Verified\nCheck images on Google: https://www.google.com/search?q=${vin}+bidfax`);
-        window.open(`https://wa.me/?text=${msg}`);
-    }
-
-    function shareWiki(model) {
-        const msg = encodeURIComponent(`📖 CAR WIKI: ${model}\nFull technical DNA and maintenance report generated by Zayd Master Hub.`);
-        window.open(`https://wa.me/?text=${msg}`);
-    }
 </script>
-
 </body>
 </html>
